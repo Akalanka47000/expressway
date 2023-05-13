@@ -4,24 +4,24 @@ import mongoosePaginateV2 from "mongoose-paginate-v2";
 const { Schema } = mongoose;
 
 const bookSchema = new Schema(
-    {
-        name: {
-            type: String,
-            required: true
-        },
-        author: {
-            type: String,
-            required: true
-        },
-        is_booked: {
-            type: String,
-            default: false
-        }
+  {
+    name: {
+      type: String,
+      required: true
     },
-    {
-        versionKey: false,
-        timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
+    author: {
+      type: String,
+      required: true
+    },
+    is_booked: {
+      type: String,
+      default: false
     }
+  },
+  {
+    versionKey: false,
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
+  }
 );
 
 bookSchema.plugin(mongoosePaginateV2);

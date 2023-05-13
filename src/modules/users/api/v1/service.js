@@ -1,12 +1,14 @@
 import { traced } from "@sliit-foss/functions";
-import { saveUser, retrivedUserById, retrieveUsers, updateUserById, deleteUserById } from "../../repository";
+import { saveUser, retriveUserById, retrieveUsers, updateUserById, deleteUserById } from "../../repository";
+import { hashPassword } from "../../utils";
 
-export const addUser = (user) => {
+export const addUser = async (user) => {
+  user.password = await hashPassword(user.password);
   return traced(saveUser)(user);
 };
 
 export const getUser = (id) => {
-  return traced(retrivedUserById)(id);
+  return traced(retriveUserById)(id);
 };
 
 export const getUsers = (filters, sorts, page, limit) => {

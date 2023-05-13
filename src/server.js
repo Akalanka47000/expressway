@@ -6,7 +6,7 @@ import helmet from "helmet";
 import clusterize from "@sliit-foss/clusterizer";
 import routes from "./modules";
 import config from "./config";
-import { errorHandler, resourceNotFoundHandler } from "./middleware";
+import { authorizer, errorHandler, resourceNotFoundHandler } from "./middleware";
 import { connectMongo } from "./database/mongo";
 
 const initialize = () => {
@@ -24,12 +24,7 @@ const initialize = () => {
 
   connectMongo();
 
-  app.use((req, res, next) => {
-    context.set("reqId", 343452345);
-    next();
-  });
-
-  app.use("/api", routes);
+  app.use("/api", authorizer, routes);
 
   app.use(resourceNotFoundHandler);
 

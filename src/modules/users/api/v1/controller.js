@@ -17,24 +17,38 @@ users.post(
   })
 );
 
-users.get("/", filterQuery, async (req, res) => {
-  const users = await traced(getUsers)(req.query.filter, req.query.sort, req.query.page, req.query.limit);
-  return response({ res, message: "Users retreived successfully", data: users });
-});
+users.get(
+  "/",
+  filterQuery,
+  tracedAsyncHandler(async (req, res) => {
+    const users = await traced(getUsers)(req.query.filter, req.query.sort, req.query.page, req.query.limit);
+    return response({ res, message: "Users retreived successfully", data: users });
+  })
+);
 
-users.get("/:id", async (req, res) => {
-  const user = await traced(getUser)(req.params.id);
-  return response({ res, message: "User retreived successfully", data: user });
-});
+users.get(
+  "/:id",
+  tracedAsyncHandler(async (req, res) => {
+    const user = await traced(getUser)(req.params.id);
+    return response({ res, message: "User retreived successfully", data: user });
+  })
+);
 
-users.patch("/:id", celebrate({ [Segments.BODY]: updateUserSchema }), async (req, res) => {
-  const user = await traced(updateUser)(req.params.id, req.body);
-  return response({ res, message: "User updated successfully", data: user });
-});
+users.patch(
+  "/:id",
+  celebrate({ [Segments.BODY]: updateUserSchema }),
+  tracedAsyncHandler(async (req, res) => {
+    const user = await traced(updateUser)(req.params.id, req.body);
+    return response({ res, message: "User updated successfully", data: user });
+  })
+);
 
-users.delete("/:id", async (req, res) => {
-  const user = await traced(deleteUser)(req.params.id);
-  return response({ res, message: "User deleted successfully", data: user });
-});
+users.delete(
+  "/:id",
+  tracedAsyncHandler(async (req, res) => {
+    const user = await traced(deleteUser)(req.params.id);
+    return response({ res, message: "User deleted successfully", data: user });
+  })
+);
 
 export default users;
