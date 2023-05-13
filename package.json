@@ -1,0 +1,37 @@
+{
+  "name": "expressway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js",
+    "format": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint \"src/**/*.js\"",
+    "prepare": "husky install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sliit-foss/clusterizer": "1.2.2",
+    "celebrate": "15.0.1",
+    "cors": "2.8.5",
+    "express": "4.18.2",
+    "express-health-middleware": "1.0.1",
+    "helmet": "7.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.21.8",
+    "@babel/node": "7.20.7",
+    "@babel/preset-env": "7.21.5",
+    "@sliit-foss/eslint-config-internal": "1.1.4",
+    "@sliit-foss/module-logger": "1.1.3",
+    "dotenv": "16.0.3",
+    "eslint": "8.40.0",
+    "eslint-plugin-import": "2.27.5",
+    "husky": "8.0.3",
+    "nodemon": "2.0.22",
+    "prettier": "2.8.8"
+  }
+}
