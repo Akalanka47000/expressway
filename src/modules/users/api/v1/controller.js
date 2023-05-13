@@ -1,23 +1,40 @@
 import express from "express";
+import { celebrate, Segments } from "celebrate";
+import { traced, tracedAsyncHandler } from "@sliit-foss/functions";
+import filterQuery from "@sliit-foss/mongoose-filter-query";
 import { response } from "../../../../utils";
-import { asyncHandler } from "../../../../middleware";
+import { addUser, getUser, getUsers, updateUser, deleteUser } from "./service";
+import { addUserSchema, updateUserSchema } from "./schema";
 
 const users = express.Router();
 
-const doSomething = async () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error("Something went wrong in do something"));
-    }, 2000);
-  });
-};
-
 users.post(
   "/",
-  asyncHandler(async (req, res) => {
-    await doSomething();
-    return response({ res, message: "Hello from users with new res function" });
+  celebrate({ [Segments.BODY]: addUserSchema }),
+  tracedAsyncHandler(async function addUserController(req, res) {
+    const user = await traced(addUser)(req.body);
+    return response({ res, message: "User added successfully", data: user });
   })
 );
+
+users.get("/", filterQuery, async (req, res) => {
+  const users = await traced(getUsers)(req.query.filter, req.query.sort, req.query.page, req.query.limit);
+  return response({ res, message: "Users retreived successfully", data: users });
+});
+
+users.get("/:id", async (req, res) => {
+  const user = await traced(getUser)(req.params.id);
+  return response({ res, message: "User retreived successfully", data: user });
+});
+
+users.patch("/:id", celebrate({ [Segments.BODY]: updateUserSchema }), async (req, res) => {
+  const user = await traced(updateUser)(req.params.id, req.body);
+  return response({ res, message: "User updated successfully", data: user });
+});
+
+users.delete("/:id", async (req, res) => {
+  const user = await traced(deleteUser)(req.params.id);
+  return response({ res, message: "User deleted successfully", data: user });
+});
 
 export default users;

@@ -1,2 +1,2 @@
-export * from "./async";
+export * from "./404";
 export * from "./errors";

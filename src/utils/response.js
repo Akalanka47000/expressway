@@ -1,10 +1,7 @@
 export const response = ({ res, status = 200, message, data }) => {
   const payload = {
-    message,
-    data
+    data,
+    message
   };
-  if (data) {
-    delete payload.data;
-  }
   return res.status(status).json(payload);
 };

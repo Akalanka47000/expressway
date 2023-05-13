@@ -1,11 +1,13 @@
 import express from "express";
 import expressHealth from "express-health-middleware";
+import context from "express-http-context";
 import cors from "cors";
 import helmet from "helmet";
 import clusterize from "@sliit-foss/clusterizer";
 import routes from "./modules";
 import config from "./config";
-import { errorHandler } from "./middleware";
+import { errorHandler, resourceNotFoundHandler } from "./middleware";
+import { connectMongo } from "./database/mongo";
 
 const initialize = () => {
   const app = express();
@@ -18,7 +20,18 @@ const initialize = () => {
 
   app.use("/system", expressHealth());
 
+  app.use(context.middleware);
+
+  connectMongo();
+
+  app.use((req, res, next) => {
+    context.set("reqId", 343452345);
+    next();
+  });
+
   app.use("/api", routes);
+
+  app.use(resourceNotFoundHandler);
 
   app.use(errorHandler);
 
