@@ -4,27 +4,33 @@ import mongoosePaginateV2 from "mongoose-paginate-v2";
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            unique: true,
+            required: true
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        books: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Book"
+            }
+        ],
+        verification_code: String,
+        mobile_no: String
     },
-    email: {
-      type: String,
-      unique: true,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    },
-    verification_code: String,
-    mobile_no: String
-  },
-  {
-    versionKey: false,
-    timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
-  }
+    {
+        versionKey: false,
+        timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
+    }
 );
 
 userSchema.plugin(mongoosePaginateV2);

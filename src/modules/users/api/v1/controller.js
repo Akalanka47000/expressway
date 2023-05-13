@@ -1,7 +1,7 @@
 import express from "express";
 import { celebrate, Segments } from "celebrate";
 import { traced, tracedAsyncHandler } from "@sliit-foss/functions";
-import filterQuery from "@sliit-foss/mongoose-filter-query";
+import { default as filterQuery } from "@sliit-foss/mongoose-filter-query";
 import { response } from "../../../../utils";
 import { addUser, getUser, getUsers, updateUser, deleteUser } from "./service";
 import { addUserSchema, updateUserSchema } from "./schema";

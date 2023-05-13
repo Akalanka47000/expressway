@@ -1,1 +1,1 @@
-export * from "./user.modal";
+export { default as User } from "./user.modal";
